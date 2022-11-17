@@ -2,6 +2,6 @@
   observabilityIncluded = true
 
 [package]
-  distribution = "slbeta6"
-  export = ["greetings"]
-  name = "greetings"
+  org="asitha"
+  version="2201.2.2"
+  name="ToDoAppService"

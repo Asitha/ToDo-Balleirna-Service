@@ -1,16 +1,34 @@
 import ballerina/http;
+import ballerina/uuid;
+
+type Task record {|
+    string id;
+    string task;
+|};
+
+type AddTaskRequest record {
+    string description;
+};
+
+map<Task> activeTasks = {};
 
 # A service representing a network-accessible API
 # bound to port `9090`.
-service /hello on new http:Listener(9090) {
+service /todo on new http:Listener(9090) {
 
-    # + name - the input sting name
-    # + return - string name with hello message or error
-    resource function get sayHello(string name) returns string|error {
-        // Send a response back to the caller.
-        if !(name is "") {
-            return "Hello, " + name;
-        }
-        return error("name should not be empty!");
+    resource function get tasks() returns json|error {
+        return {tasks: activeTasks.toArray()};
     }
+
+    resource function post tasks(@http:Payload AddTaskRequest req) returns record {|*http:Created;|}|error {
+        string nextId = uuid:createType1AsString();
+        activeTasks[nextId] = {id: nextId, task: req.description};
+        return {};
+    }
+
+    resource function delete tasks(string id) returns record {|*http:Ok;|}|error {
+        _ = activeTasks.remove(id);
+        return {};
+    }
+
 }
