@@ -3,7 +3,7 @@ import ballerina/uuid;
 
 type Task record {|
     string id;
-    string task;
+    string description;
 |};
 
 type AddTaskRequest record {
@@ -14,6 +14,12 @@ map<Task> activeTasks = {};
 
 # A service representing a network-accessible API
 # bound to port `9090`.
+#
+@http:ServiceConfig {
+    cors: {
+        allowOrigins: ["*"]
+    }
+}
 service /todo on new http:Listener(9090) {
 
     resource function get tasks() returns json|error {
@@ -22,7 +28,7 @@ service /todo on new http:Listener(9090) {
 
     resource function post tasks(@http:Payload AddTaskRequest req) returns record {|*http:Created;|}|error {
         string nextId = uuid:createType1AsString();
-        activeTasks[nextId] = {id: nextId, task: req.description};
+        activeTasks[nextId] = {id: nextId, description: req.description};
         return {};
     }
 
@@ -30,5 +36,4 @@ service /todo on new http:Listener(9090) {
         _ = activeTasks.remove(id);
         return {};
     }
-
 }
