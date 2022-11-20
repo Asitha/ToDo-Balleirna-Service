@@ -17,3 +17,4 @@ unzip -p .choreo/build/bin/$(echo $APP_NAME).jar syntax-tree/syntax-tree.json > 
 rm -rf .choreo/build
 git add .choreo
   
+  
