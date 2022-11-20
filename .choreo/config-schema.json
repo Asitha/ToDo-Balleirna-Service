@@ -1,6 +1,46 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
-  "properties": {},
+  "properties": {
+    "asitha": {
+      "type": "object",
+      "properties": {
+        "ToDoAppService": {
+          "type": "object",
+          "properties": {
+            "dbHost": {
+              "type": "string",
+              "description": ""
+            },
+            "dbUser": {
+              "type": "string",
+              "description": ""
+            },
+            "dbPassword": {
+              "type": "string",
+              "description": ""
+            },
+            "dbName": {
+              "type": "string",
+              "description": ""
+            },
+            "dbPort": {
+              "type": "integer",
+              "description": ""
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "dbHost",
+            "dbUser",
+            "dbPassword",
+            "dbName",
+            "dbPort"
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
   "additionalProperties": false
 }
